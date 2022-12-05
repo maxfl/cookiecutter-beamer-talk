@@ -10,5 +10,5 @@
     "date": "",
     "aspect": "169",
     "fontsize": "10pt",
-    "_copy_without_render": [ "include" ]
+    "_copy_without_render": [ "include", "slides" ]
 }
