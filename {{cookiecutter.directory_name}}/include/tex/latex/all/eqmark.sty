@@ -1,0 +1,17 @@
+\ProvidesPackage{eqmark}
+\RequirePackage{tikz}
+
+\usetikzlibrary{arrows}
+\tikzstyle{na} = [baseline=-.5ex]
+
+\newcommand\eqmark[3][]{%
+  \tikz[baseline,inner sep=1pt,remember picture]{%
+    \node[anchor=base,#1] (#2) {$\displaystyle#3$};
+  }
+}
+\newcommand\eqdesc[1]{\tikz[na,remember picture] \node[coordinate] (#1) {};}
+\newcommand\eqdesct[3][base]{\tikz[baseline,inner sep=0pt,remember picture] \node[anchor=#1] (#2) {#3};}
+
+\newcommand{\tikzmarkmy}[2]{\tikz[baseline=(#1.base),inner sep=0pt,remember picture] \node (#1) {#2};}
+
+\endinput

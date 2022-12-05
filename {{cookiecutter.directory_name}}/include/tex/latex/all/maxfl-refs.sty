@@ -1,0 +1,12 @@
+\ProvidesPackage{maxfl-refs}
+
+\RequirePackage{hyperref}
+\RequirePackage{fontawesome}
+\RequirePackage{xspace}
+
+\newcommand\ihepdocdb[3][Docdb: ]{\href{http://#2.ihep.ac.cn/cgi-bin/DocDB/ShowDocument?docid=#3}{#1#3}}
+\newcommand\dbdocdb[2][Docdb: ]{\ihepdocdb[#1]{dayabay}{#2}}
+\newcommand\junodocdb[2][Docdb: ]{\ihepdocdb[#1]{juno}{#2}}
+
+\newcommand\LinkSymbol{\ensuremath{{}^\text{\relscale{0.80}\color{gray}\faExternalLink}}}
+\newcommand\ExternalLink[2][]{{\href{#2}{#1\LinkSymbol}\xspace}}

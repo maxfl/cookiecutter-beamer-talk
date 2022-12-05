@@ -1,0 +1,66 @@
+\ProvidesPackage{maxfl-numerals}[1]
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+\RequirePackage{xstring}
+
+\newcommand*\numeralfgen[1]{\ifcase#1\relax нуля\or одной\or двух\or трёх\or четырёх\or пяти\or шести \or семи\or восьми\or девяти\or десяти\fi}
+\newcommand*\tonumeralfs[1]{\ifcase#1\relax к нулевой\or к первой\or ко второй\or к третьей\or к четвёртой \or к пятой\or к шестой\or к седьмой\or к восьмой\or к девятой\or к десятой\fi}
+\newcommand*\tochapter{\tonumeralfs{\c@chapter}}
+
+\newcommand*\totextsub[1]{\ifcase#1\relax ₀\or ₁\or ₂\or ₃\or ₄\or ₅\or ₆\or ₇\or ₈\or ₉\fi}
+\newcommand*\totextsuper[1]{\ifcase#1\relax ⁰\or ¹\or ²\or ³\or ⁴\or ⁵\or ⁶\or ⁷\or ⁸\or ⁹\fi}
+
+%\newcommand*\numcases[2]{%
+  %% {1} - string
+  %% {2} - is 0 case
+  %% {3} - ends with 1 case
+  %% {4} - ends with 2-4 case
+  %% {5} - ends with 5-0 case
+  %\begingroup%
+  %\newcommand*\NumEnd{\StrRight{#1}{2}}
+  %\IfStrEq{#1}{0}{%
+    %#2%
+  %}{%
+  %\ifnumgreater{\NumEnd}{11}{%
+  %}{%
+  %}
+    %\IfEndWith{#1}{0}{#2}{}%
+    %\IfEndWith{#1}{0}{#2}{}%
+    %\IfEndWith{#1}{0}{#2}{}%
+  %}%
+  %\endgroup%
+%}
+
+\NewDocumentCommand\DefineFloatCounter{sommm}{%
+  % *#1  - total counter (*) or plain counter
+  % [#2] - total counter options
+  % {#3} - main environment
+  % {#4} - sub counter
+  % {#5} - target counter
+  \IfBooleanTF{#1}{%             - use tot counter
+    \RequirePackage{totcount}%
+    \IfNoValueTF{#2}{%           - use default tot counter
+      \newtotcounter{#5}%
+    }{%                          - use tot counter with options
+      \newtotcounter[#2]{#5}%
+    }%
+  }{%                            - use plain counter
+    \newcounter{#5}%
+  }%
+  \newcounter{subcounter#4}%
+  \AtBeginEnvironment{#3}{%
+    \setcounter{subcounter#4}{0}%
+  }%
+  \AtBeginEnvironment{#4}{%
+    \stepcounter{subcounter#4}%
+  }%
+  \AtEndEnvironment{#3}{%        - patch end of environment
+    \ifnumequal{\value{subcounter#4}}{0}{% - if there are no subfloats
+      \stepcounter{#5}%          - increment counter by 1
+    }{%                          - or increment counter by number of subfloats
+      \addtocounter{#5}{\value{subcounter#4}}%
+    }%
+  }%
+}%
+
+\endinput

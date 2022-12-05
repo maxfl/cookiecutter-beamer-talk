@@ -1,0 +1,49 @@
+\ProvidesPackage{beamer-itemize}
+\RequirePackage{pifont} % for \cmark and \xmark
+\RequirePackage[svgnames]{xcolor}
+\RequirePackage{amssymb}
+\RequirePackage{xspace}
+\RequirePackage[clock]{ifsym}
+\RequirePackage{relsize}
+
+\def\beameritemize@cmark{\ding{51}}
+\def\beameritemize@xmark{\ding{55}}
+
+\newcommand\MarkV{\color{ForestGreen}{\ding{51}}}
+\newcommand\MarkX{\color{Brown}{\ding{55}}}
+\newcommand\MarkO{\color{Blue}{\relscale{0.8}\Taschenuhr}}
+\newcommand\MarkE{\color{Blue}{!}}
+\newcommand\MarkQ{\color{Blue}{?}}
+\newcommand\MarkWarning{\color{Blue}{\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}}
+\newcommand\MarkNoway{\color{Brown}{\fontencoding{U}\fontfamily{futs}\selectfont\char 65\relax}}
+\newcommand\MarkSwords{\color{ForestGreen}{\fontencoding{U}\fontfamily{futs}\selectfont\char 85\relax}}
+
+\newcommand<>\itemc{\item#1[\MarkV]}
+\newcommand<>\itemx{\item#1[\MarkX]}
+\newcommand<>\itemf{\item#1[\MarkO]}
+\newcommand<>\items{\item#1[\MarkE]}
+\newcommand<>\itemq{\item#1[\MarkQ]}
+\newcommand<>\itemw{\item#1[\raisebox{0.4ex}{\MarkWarning}]}
+\newcommand<>\itemswords{\item#1[\MarkSwords]}
+
+\newcommand<>\itemdown{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\triangledown$}]}
+\newcommand<>\itemup{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\triangle$}]}
+\newcommand<>\itemleft{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\triangleleft$}]}
+\newcommand<>\itemright{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\triangleright$}]}
+
+\newcommand<>\itemdownb{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangledown$}]}
+\newcommand<>\itemupb{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleup$}]}
+\newcommand<>\itemleftb{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleleft$}]}
+\newcommand<>\itemrightb{\item#1[\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleright$}]}
+
+\newcommand<>\BulletDown{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangledown$}}\xspace}
+\newcommand<>\BulletUp{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleup$}}\xspace}
+\newcommand<>\BulletLeft{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleleft$}}\xspace}
+\newcommand<>\BulletRight{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleright$}}\xspace}
+
+\newcommand<>\BulletUpRight{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\rotatebox{45}{\blacktriangleright}$}}\xspace}
+\newcommand<>\BulletDownRight{\only#1{\usebeamercolor[fg]{itemize item}\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\rotatebox{-45}{\blacktriangleright}$}}\xspace}
+
+\newcommand*\BulletI{{\usebeamercolor[fg]{itemize item}\usebeamertemplate{itemize item}}\xspace}
+\newcommand*\BulletII{{\usebeamercolor[fg]{itemize subitem}\usebeamertemplate{itemize subitem}}\xspace}
+\newcommand*\BulletIII{{\usebeamercolor[fg]{itemize subsubitem}\usebeamertemplate{itemize subsubitem}}\xspace}

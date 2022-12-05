@@ -1,0 +1,153 @@
+%
+
+\usepackage{maxfl-loc}
+\newfontfamily\cjkfont{AR PL UMing CN}
+
+\usepackage{maxfl-refs}
+
+\usepackage[compatibility=false]{caption}
+\usepackage{subcaption}
+\usepackage[normalem]{ulem}
+
+%\usepackage{typewriter}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{fontawesome}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{tensor}
+\usepackage[version=3]{mhchem}
+\usepackage{relsize}
+\usepackage{booktabs}           % for additional table rules
+\usepackage{spreadtab}
+\usepackage{diagbox}
+\usepackage{ifthen}
+\usepackage{timeline}
+\usepackage{uri,multirow,tabularx,tabulary,bigdelim}
+\usepackage{frametools}
+\usepackage{boldabbr}
+\usepackage{abbr-programming}
+\usepackage{beamercallableframe}
+\usepackage{beamer-extraframes}
+\usepackage{transparent}
+
+\usepackage{etoolbox}
+\usepackage{qrcode}
+%\usepackage{timeline}    % for timeline environment
+\usepackage{wasysym}            % for \diameter
+\usepackage{onimage}     % on image overlay
+\usepackage{verbatim}     % for comment environment
+\usepackage[beamer,customcolors]{hf-tikz}     % for equation highlight
+\usepackage{tikz-cd}
+\usepackage{multicol}
+\usepackage{subfiles}
+\usepackage{lazyrun}
+\usepackage{standalone}
+\usepackage{eqparbox}
+\usepackage[separate-uncertainty=true,multi-part-units=brackets,detect-mode=true]{siunitx}
+%\usepackage{siunitx-rus}
+
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{tikz-relcoord}
+\usepackage{eqmark}
+\usepackage{backupslides}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+\usepackage{pgfplotstable}
+
+\usepackage{translator}
+%\usepackage[all]{maxfl-dict}
+\uselanguage{russian,english}
+
+\usepackage{pifont}             % for \cmark and \xmark
+\def\cmark{\ding{51}}
+\def\xmark{\ding{55}}
+\xdefinecolor{darkgreen}{rgb}{0,0.35,0}
+
+\newcommand\cred[1]{{\color{red}#1}}
+\newcommand\cblue[1]{{\color{blue}#1}}
+\newcommand\cgreen[1]{{\color{darkgreen}#1}}
+
+\definecolor{lightgray}{gray}{0.9}
+\hfsetfillcolor{blue!30}
+\hfsetbordercolor{blue!10}
+\hfsetbordercolor{blue!10}
+
+%\usetheme[compress]{Boadilla}
+\useinnertheme{default}
+\useinnertheme{rectangles}
+\useoutertheme{mfl1}
+\usecolortheme{seahorse}
+
+%\setbeamertemplate{navigation symbols}{}     % disable navigation symbols
+\setbeamertemplate{caption}{\insertcaption}
+\setbeamertemplate{enumerate items}[default]
+
+\setbeamertemplate{blocks}[rounded][shadow=false] % no shadow for blocks
+
+%\setbeamercovered{transparent=20}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{graphs}
+\usetikzlibrary{intersections}
+\usetikzlibrary{math}
+\usetikzlibrary{matrix}
+\usetikzlibrary{overlay-beamer-styles}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes}
+\usetikzlibrary{spy}
+\usetikzlibrary{trees}
+\usetikzlibrary{tikzmark}
+
+%\newenvironment{changemargin}[2]{%
+  %\begin{list}{}{%
+    %\setlength{\topsep}{0pt}%
+    %\setlength{\leftmargin}{#1}%
+    %\setlength{\rightmargin}{#2}%
+    %\setlength{\listparindent}{\parindent}%
+    %\setlength{\itemindent}{\parindent}%
+    %\setlength{\parsep}{\parskip}%
+  %}%
+  %\item[]}{\end{list}
+%}
+
+\usepackage{calculator}
+%\usepackage[pdg,math]{maxfl}
+\addtobeamertemplate{block begin}{\setlength\abovedisplayskip{0pt}}
+
+\renewcommand\arxiv[1]{\href{http://arxiv.org/abs/#1}{[#1]}}
+
+\newenvironment{nitemize}[1]{\begin{multicols}{#1}\begin{itemize}}{\end{itemize}\end{multicols}}
+
+\pgfdeclarelayer{background layer}
+\pgfdeclarelayer{foreground layer}
+\pgfsetlayers{background,background layer,main,foreground layer}
+
+\newcommand\initlength[2]{\newlength{#1}\setlength{#1}{#2}}
+
+\RequirePackage{luatex85} % required by multimedia under luatex
+\usepackage{multimedia}
+
+\usepackage{eqn-neutrino}
+\usepackage{beamerlogo}
+
+% symbols
+\usepackage[clock,weather]{ifsym}\let\Square\undefined\let\Lightning\undefined\let\Sun\undefined % \FilledCloud, \Lightning
+\usepackage{bbding}\let\Cross\undefined % \SunshineOpenCircled
+\let\SunshineOpenCircledOld\SunshineOpenCircled
+\def\SunshineOpenCircled{\raisebox{-0.2ex}{\SunshineOpenCircledOld}}
+\newcommand\CloudThunder{{\relscale{0.9}\raisebox{0.6ex}{\FilledCloud}{\relscale{0.8}\hspace{-2.7ex}\raisebox{-0.7ex}{\Lightning\Lightning}\hspace{+1.8ex}}}}
+\usepackage{stmaryrd} % \nnearrow
+\usepackage{marvosym} % \nnearrow
+
+\usepackage{beamer-itemize}

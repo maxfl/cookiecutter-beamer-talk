@@ -1,0 +1,13 @@
+\ProvidesPackage{tikz-relcoord}
+\RequirePackage{tikz}
+
+\usetikzlibrary{calc}
+
+\def\RelPos(#1)(#2,#3){({$(#1.south west)!#2!(#1.south east)$} |- {$(#1.south west)!#3!(#1.north west)$})}
+\def\RelCoord (#1) at (#2,#3) of (#4);{\coordinate (#1) at ({$(#4.south west)!#2!(#4.south east)$} |- {$(#4.south west)!#3!(#4.north west)$});}
+
+\providecommand\MarkPoints[2][black]{
+  \foreach \loc in {#2}{
+    \draw[#1] (\loc) circle [radius=1pt];
+  }
+}

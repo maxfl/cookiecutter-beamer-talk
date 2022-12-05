@@ -1,0 +1,61 @@
+\ProvidesPackage{maxfl-loc}
+\RequirePackage{ifxelua}
+
+\newif\if@maxfl@rus\@maxfl@rusfalse
+\newif\if@maxfl@engrus\@maxfl@engrusfalse
+\newif\if@maxfl@cjk\@maxfl@cjkfalse
+\DeclareOption{rus}{\@maxfl@rustrue}
+\DeclareOption{engrus}{\@maxfl@engrustrue}
+\DeclareOption{cjk}{\@maxfl@cjktrue}
+\ProcessOptions\relax
+
+\ifxelua
+  \RequirePackage[no-math]{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+
+  \RequirePackage[babelshorthands]{polyglossia}
+
+  \if@maxfl@rus
+    \RequirePackage{computermodern}
+    \setmainlanguage{russian}
+    \setotherlanguage{english}
+  \else
+    \if@maxfl@engrus
+      \RequirePackage{computermodern}
+      \setmainlanguage{english}
+      \setotherlanguage{russian}
+    \else
+      \RequirePackage{lmodern}
+      \setmainlanguage{english}
+    \fi
+  \fi
+
+  \ifxetex
+    \RequirePackage{xltxtra}
+  \fi
+\else
+  \if@maxfl@rus
+    \RequirePackage[T1,T2A]{fontenc}
+  \else
+    \RequirePackage[T1]{fontenc}
+  \fi
+
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage{textcomp}
+
+  \if@maxfl@rus
+    \RequirePackage[main=russian,english]{babel}
+  \else
+    \RequirePackage[english]{babel}
+  \fi
+\fi
+
+\if@maxfl@cjk
+  \newfontfamily\cjkfont{AR PL UMing CN}
+\fi
+
+\RequirePackage{csquotes}
+\RequirePackage{indentfirst}
+\frenchspacing
+
+\endinput

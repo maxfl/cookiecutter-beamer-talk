@@ -1,0 +1,183 @@
+\ProvidesPackage{frametools}
+\RequirePackage{beamerbaserequires}
+\RequirePackage{bookmark}
+\RequirePackage{hyperref}
+\RequirePackage{etoolbox}
+\RequirePackage{totcount}
+\RequirePackage{relsize}
+\RequirePackage[absolute,overlay]{textpos} % for textblock environment
+
+\RequirePackage{tikz}
+\usetikzlibrary{backgrounds,shapes.multipart}
+\pgfdeclarelayer{myback}
+
+%
+% Include another people slides
+%
+\newenvironment{alienframe}[1]{%
+  \author{Slide by #1}
+  \institute{}
+  \begin{frame}
+}{%
+  \author{\myname}
+  \institute[\myshortinstitute]{\myinstitute}
+  \end{frame}
+}
+
+%
+% Enumerate subframes
+%
+\def\subframe@formatter#1{\relsize{-0.5}\ensuremath{_{\arabic{#1}}}}%
+\newcommand\enumerateoverlays{%
+  % patch footline in order to show overlays count
+  \addtobeamertemplate{footline}{%
+    \ifltxcounter{subframe@\theframenumber}{%
+      % step current frame's overlays counters
+      \stepcounter{subframe@\theframenumber}%
+      \stepcounter{subframes@t@\theframenumber}%
+    }{%
+      % define overlays counter for the current frame
+      \newcounter{subframe@\theframenumber}%
+      \stepcounter{subframe@\theframenumber}%
+      % define counter to save total number of overlays
+      \edef\newtfn{\noexpand\newtotcounter{subframes@t@\theframenumber}}%
+      \newtfn%
+      \stepcounter{subframes@t@\theframenumber}%
+    }%
+    \begingroup%
+    % define the formatter
+    %\let\subframe@formatter=\alph%
+    %\def\subframe@formatter#1{.\arabic{#1}}%
+    % if there are more than 1 subframes, patch \insertframenumber routine
+    \ifnumcomp{\totvalue{subframes@t@\theframenumber}}{=}{1}{}{%
+      \appto{\insertframenumber}{\subframe@formatter{subframe@\theframenumber}}%
+    }%
+  }{\endgroup}%
+  % treat broken frames as overlays (freeze frame counter)
+  \addtobeamertemplate{frametitle continuation}{}{%
+    \ifnumcomp{\beamer@autobreakcount}{>}{1}{\addtocounter{framenumber}{-1}}{}%
+  }%
+}
+
+%
+% Input a file with a beamer frame, that can use \myFrameOverlay variable to select overlays
+%
+\newcommand\inputover[2]{
+  {
+    \def\myFrameOverlay{#1}
+    \input #2
+  }
+}
+
+%
+% Make list of frames (doesn't work)
+%
+% \makeatletter
+% \newcommand\listofframes{\@starttoc{lbf}}
+% \makeatother
+%
+% \addtobeamertemplate{frametitle}{}{%
+%   \addcontentsline{lbf}{section}{\protect\makebox[2em][l]{%
+%     \protect\usebeamercolor[fg]{structure}\insertframenumber\hfill}%
+%   \insertframetitle\par}%
+% }
+
+%
+% Change margin
+%
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}
+}
+
+%
+% A text in bottom right corner of the slide
+%
+\newcommand<>\FrameText[2][0.98\textheight]{%
+  \uncover#3{%
+    \begin{textblock*}{\paperwidth}(0pt,#1)
+      \raggedleft #2\hspace{.5em}
+    \end{textblock*}%
+  }%
+}
+
+%
+% Goto and return buttons
+%
+\newcommand\ButtonGoto[2]{%
+  \hyperlink{#1}{\beamergotobutton{#2}}%
+}
+
+\newcommand\ButtonReturn[2]{%
+  \hyperlink{#1}{\beamerreturnbutton{#2}}%
+}
+
+%
+% Variable width block
+% http://tex.stackexchange.com/questions/12550/changing-default-width-of-blocks-in-beamer
+\newenvironment<>{varblock}[2][.9\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{\centering#2\par}%
+    \par%
+    \usebeamertemplate{block begin}}%
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}%
+}
+
+\newenvironment{colorblock}[3]{%
+  \ifstr
+  \setbeamercolor{block body}{#2}%
+  \setbeamercolor{block title}{#3}%
+  \begin{block}{#1}%
+}{%
+  \end{block}%
+}
+
+\newcommand\brule[1][blue!30]{{\textcolor{#1}{\rule[0.25ex]{\linewidth}{0.5ex}}}}
+
+\newenvironment{hlline}[3]{%
+  \begin{columns}%
+  \begin{column}{#1}\end{column}%
+  \begin{column}{#2}%
+    \def\insertblocktitle{}%
+    \par%
+    \usebeamertemplate{block begin}%
+    \begin{center}%
+    #3
+    \end{center}%
+    \usebeamertemplate{block end}%
+    \end{column}%
+    \begin{column}{#1}\end{column}%
+  \end{columns}%
+}
+
+\newcommand\preliminary{%
+  \pgfsetlayers{background,main,myback}
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{pgfonlayer}{myback}
+      \node [fill=red, opacity=0.2, text=black, text opacity=1, rotate=-45, anchor=north west,
+      shift={(-1.1,-1.1)}]
+      at (current page.north east) {PRELIMINARY};
+    \end{pgfonlayer}
+  \end{tikzpicture}
+}
+
+%
+% Add beamer titles to PDF bookmarks
+\apptocmd{\beamer@@frametitle}{\only<1>{\bookmark[page=\the\c@page,level=3]{S: #1}}}%
+{\message{** patching of \string\beamer@@frametitle succeeded **}}%
+{\message{** patching of \string\beamer@@frametitle failed **}}%
+
+\newcommand*\incframenumber{\addtocounter{framenumber}{+1}}
+\newcommand*\decframenumber{\addtocounter{framenumber}{-1}}
+
+\endinput

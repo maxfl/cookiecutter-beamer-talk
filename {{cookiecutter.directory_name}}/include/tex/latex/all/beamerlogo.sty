@@ -1,0 +1,74 @@
+\ProvidesPackage{beamerlogo}
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+
+\newtoggle{beamerlogo@hastitlelogo}
+\togglefalse{beamerlogo@hastitlelogo}
+
+\NewDocumentCommand{\BeamerTitleLogo}{ooo}{%
+  % [#1] - logo 1
+  % [#2] - logo 2
+  % [#3] - logo 3
+  \togglefalse{beamerlogo@hastitlelogo}%
+  \IfValueTF{#1}{%
+    \toggletrue{beamerlogo@hastitlelogo}%
+    \def\beamerlogo@TitleLogoA{\pgfuseimage{#1}}%
+  }{%
+    \def\beamerlogo@TitleLogoA{}%
+  }%
+  \IfValueTF{#2}{%
+    \toggletrue{beamerlogo@hastitlelogo}%
+    \def\beamerlogo@TitleLogoB{%
+      \hspace*{2pt}%
+      \pgfuseimage{#2}%
+    }%
+  }{%
+    \def\beamerlogo@TitleLogoB{}%
+  }%
+  \IfValueTF{#3}{%
+    \toggletrue{beamerlogo@hastitlelogo}%
+    \def\beamerlogo@TitleLogoC{%
+      \hspace*{2pt}%
+      \pgfuseimage{#3}%
+    }%
+  }{%
+    \def\beamerlogo@TitleLogoC{}
+  }%
+}
+\BeamerTitleLogo
+
+\newcommand{\beamerlogo@ShowTitleLogo}{%
+  \iftoggle{beamerlogo@hastitlelogo}{%
+    \begin{tikzpicture}[remember picture,overlay,on background layer]%
+      \node[anchor=north east,yshift=-8pt] at (current page.north east) {%
+        \beamerlogo@TitleLogoA%
+        \beamerlogo@TitleLogoB%
+        \beamerlogo@TitleLogoC%
+      };%
+    \end{tikzpicture}%
+    \vspace{-3mm}%
+  }{}%
+}
+\addtobeamertemplate{frametitle}{}{\beamerlogo@ShowTitleLogo}%
+
+\NewDocumentCommand{\BeamerTitlepageLogo}{mooO{-5mm}}{%
+  \begin{tikzpicture}[remember picture,overlay,on background layer]
+    \node[anchor=north east,yshift=#4] at (current page.north east) {%
+      \makebox[0.95\paperwidth]{%
+        \hspace*{\fill}%
+        \pgfuseimage{#1}%
+        \IfValueT{#2}{%
+          \hspace*{\fill}%
+          \pgfuseimage{#2}%
+        }
+        \IfValueT{#3}{%
+          \hspace*{\fill}%
+          \pgfuseimage{#3}%
+        }%
+        \hspace{3em}%
+        \hspace*{\fill}%
+      }%
+    };%
+  \end{tikzpicture}%
+}

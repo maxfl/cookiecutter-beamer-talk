@@ -1,0 +1,63 @@
+\enumerateoverlays
+
+\newcommand\MathBlueI{
+  \setbeamercolor{math text}{fg=blue}
+}
+\newcommand\MathBlueD{
+  \setbeamercolor{math text displayed}{fg=blue}
+}
+\newcommand\MathBlue{
+  \MathBlueI
+  \MathBlueD
+}
+
+\newcommand\NoMathBlue{%
+  \setbeamercolor{math text}{fg=}%
+  \setbeamercolor{math text displayed}{fg=}%
+}
+
+\setbeamercolor{block body}{bg=}
+\setbeamercolor{block title}{bg=blue!2}
+
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+\setbeamertemplate{itemize item}[square]
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamerfont{frametitle}{family=\rmfamily,shape=\scshape}
+\setbeamerfont{title}{parent=frametitle}
+\setbeamerfont{framesubtitle}{parent=frametitle}
+\setbeamerfont{section in toc}{parent=frametitle}
+\setbeamerfont{subsection in toc}{family=\sffamily}
+
+\makeatletter
+\newlength\beamerleftmargin
+\newlength\beamerrightmargin
+\setlength\beamerleftmargin{\Gm@lmargin}
+\setlength\beamerrightmargin{\Gm@rmargin}
+\makeatother
+
+\def\Iunskip{\vspace{-4mm}}
+\def\IIunskip{\vspace{-1mm}}
+
+\newcommand\AlertColor{ProcessBlue!80!Black}
+\setbeamercolor{alerted text}{fg=\AlertColor}
+
+\setbeamertemplate{itemize item}[circle]
+\defbeamertemplate*{itemize subitem}{smalltriangle}{\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths$\scriptstyle\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}[smalltriangle]
+
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{0pt}%
+  \setlength{\belowdisplayskip}{0pt}%
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}%
+
+  \setlength{\leftmargini}{10pt}
+  \setlength{\leftmarginii}{14pt}
+}
+
+\setbeamercovered{invisible}%
+
+%\usepackage{minted} % for code listings
+%\usepackage{tcolorbox}
+%\tcbuselibrary{minted,skins}
+%\usemintedstyle{solarized-light}

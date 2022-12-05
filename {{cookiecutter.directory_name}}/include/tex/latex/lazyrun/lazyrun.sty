@@ -1,0 +1,130 @@
+\ProvidesPackage{lazyrun}[2021/07/23]
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+\RequirePackage{xstring}
+
+\providetoggle{lazyrun@disabled}%
+
+\newcommand{\lazyrundisable}{\toggletrue{lazyrun@disabled}}
+\newcommand{\lazyrunenable}{\togglefalse{lazyrun@disabled}}
+
+\providetoggle{lazyrun@file-loaded:./}
+\toggletrue{lazyrun@file-loaded:./}
+
+%
+% Macros to split dirname and filename
+%
+\DeclareListParser*{\sfd@forpath}{/}
+
+% Process a path component, append previous path component to the dir part
+\newcommand\sfd@process@component[1]{%
+  \ifdef{\SplitResultDirname}{%
+    \edef\SplitResultDirname{\SplitResultDirname/\SplitResultFilename}%
+  }{%
+    \ifdef{\SplitResultFilename}{%
+      \edef\SplitResultDirname{\SplitResultFilename}%
+    }{}%
+  }%
+  \edef\SplitResultFilename{#1}%
+}
+
+\edef\SplitResultDirname{.}
+\edef\SplitResultFilename{}
+
+% Split fullpath into dirname (\SplitDirnameFilename) and filename (\SplitResultFilename)
+\newcommand\SplitDirnameFilename[1]{
+  \IfStrEq{#1}{/}{
+    \edef\SplitResultDirname{/}
+    \edef\SplitResultFilename{}
+  }{%
+    \undef{\SplitResultDirname}
+    \undef{\SplitResultFilename}
+
+    \sfd@forpath{\sfd@process@component}{#1}
+
+    \IfEndWith{#1}{/}{%
+      \sfd@process@component{}%
+    }{}
+
+    \ifundef{\SplitResultDirname}{\edef\SplitResultDirname{.}}{}
+    \ifundef{\SplitResultFilename}{\edef\SplitResultFilename{}}{}
+
+    \IfBeginWith{#1}{/}{%
+      \edef\SplitResultDirname{/\SplitResultDirname}%
+    }{}
+  }%
+}
+
+% Load a file #1/#2. The file is loaded only once on a first request.
+\newcommand{\lazyrun@lazyload}[1]{%
+  % {#1} - filename
+  \providetoggle{lazyrun@file-loaded:#1}%
+  \SplitDirnameFilename{#1}
+  \edef\LazyRunInputDir{\SplitResultDirname}%
+  \edef\LazyRunInputFile{#1}%
+  \graphicspath{{\LazyRunInputDir}}
+  \iftoggle{lazyrun@file-loaded:#1}{}{%
+    \input{#1}%
+    \toggletrue{lazyrun@file-loaded:#1}%
+  }%
+}
+
+\newcommand\lazyrun@resetvars{%
+  \let\LazyRunInputDir\undefined%
+  \let\LazyRunInputFile\undefined%
+}
+
+%% Load a file #1/#2. The file is loaded only once on a first request.
+% Problem:
+% - \LazyRunInputFile/\LazyRunInputDir leak
+% or
+% - should be reset before the command run
+\NewDocumentCommand{\lazyload}{sm}{%
+  % *1   - force
+  % {#2} - filename
+  \iftoggle{lazyrun@disabled}{%
+    \IfBooleanTF{#1}{%
+      \lazyrun@lazyload{#2}%
+    }{}%
+  }{%
+    % Enabled
+    \lazyrun@lazyload{#2}%
+  }%
+  \lazyrun@resetvars%
+}
+
+% Load a file #2 and run a command #1
+% The file is loaded only once on a first request
+\NewDocumentCommand\lazyrun{smm}{%
+  % *1   - force
+  % {#2} - command
+  % {#3} - filename
+  \iftoggle{lazyrun@disabled}{%
+    \IfBooleanTF{#1}{%
+      \lazyrun@lazyload{#3}%
+      #2%
+      \graphicspath{}
+    }{}%
+  }{%
+    % Enabled
+    \lazyrun@lazyload{#3}%
+    #2%
+    \graphicspath{}
+  }%
+  \lazyrun@resetvars%
+}
+
+% Load a file #2 and run a command #1
+% The file is loaded only once on a first request
+\NewDocumentCommand\lazyrunc{sm}{%
+  % *1   - force
+  % {#2} - command
+  \iftoggle{lazyrun@disabled}{%
+    \IfBooleanTF{#1}{%
+      #2%
+    }{}%
+  }{%
+    #2%
+  }%
+}
+

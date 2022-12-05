@@ -1,0 +1,84 @@
+\ProvidesPackage{eqn-neutrino}
+\RequirePackage{xspace}
+\RequirePackage{relsize}
+\RequirePackage{textgreek}
+\RequirePackage{maxfl-numerals}
+
+\providecommand{\donotcoloroutermaths}{}
+
+%
+% Neutrino types
+%
+\newcommand*\neutrino{\ensuremath{\nu}\xspace}
+\newcommand*\massivenu[1]{\ensuremath{\nu_{#1}}}
+\newcommand*\nue{\ensuremath{\nu_e}\xspace}
+\newcommand*\anu{\ensuremath{\overline{\nu}}\xspace}
+\newcommand*\anue{\ensuremath{\overline{\nu}_e}\xspace}
+\newcommand*\numu{\ensuremath{\nu_{\mu}}\xspace}
+\newcommand*\anumu{\ensuremath{\overline{\nu}_{\mu}}\xspace}
+\newcommand*\nus{\ensuremath{\nu_s}\xspace}
+\newcommand*\anus{\ensuremath{\overline{\nu}_s}\xspace}
+
+\newcommand*\anutitle{\texorpdfstring{\anu}{anti-ν}}
+\newcommand*\nuetitle{\texorpdfstring{\nue}{ν(e)}}
+\newcommand*\anuetitle{\texorpdfstring{\anue}{anti-ν(e)}}
+\newcommand*\anustitle{\texorpdfstring{\anus}{anti-ν(s)}}
+\newcommand*\numutitle{\texorpdfstring{\numu}{ν(μ)}}
+\newcommand*\anumutitle{\texorpdfstring{\anumu}{anti-ν(μ)}}
+
+%
+% Reactions
+%
+\newcommand*\inversebetadecay{\ensuremath{\anue+p\longrightarrow e^++n}}
+
+%
+% Oscillation parameters
+%
+\newcommand*\DeltaCP{\ensuremath{\delta_{\text{\relsize{-1}CP}}}\xspace}
+
+\newcommand*\mtheta[2]{\ensuremath{\theta_{#1#2}}}
+\newcommand*\SinSqTheta[2]{\ensuremath{\sin^2\theta_{#1#2}}}
+\newcommand*\SinSqDTheta[2]{\ensuremath{\sin^22\theta_{#1#2}}}
+\newcommand*\CosSqTheta[2]{\ensuremath{\cos^2\theta_{#1#2}}}
+\newcommand*\CosSqDTheta[2]{\ensuremath{\cos^22\theta_{#1#2}}}
+\newcommand*\CosFpTheta[2]{\ensuremath{\cos^4\theta_{#1#2}}}
+
+\newcommand*\dm[2]{\ensuremath{\Delta m^2_{#1#2}}}
+\newcommand*\dmee{\ensuremath{\Delta m^2_{ee}}\xspace}
+\newcommand*\dmmumu{\ensuremath{\Delta m^2_{\mu\mu}}\xspace}
+
+\newcommand*\SinSqDelta[2]{\ensuremath{\sin^2 \Delta_{#1#2}}}
+\newcommand*\CosSqDelta[2]{\ensuremath{\cos^2 \Delta_{#1#2}}}
+
+\newcommand*\dmtitle[2]{\texorpdfstring{\dm#1#2}{Δm²\totextsub{#1}\totextsub{#2}}}
+\newcommand*\mthetatitle[2]{\texorpdfstring{\mtheta#1#2}{θ\totextsub{#1}\totextsub{#2}}}
+
+%
+% Processes
+%
+\newcommand*{\NuBetaBeta}{\textnu\textbeta\textbeta\xspace}
+\newcommand*{\NoNuBetaBeta}{0\NuBetaBeta{}\xspace}
+\newcommand*{\DoubleNuBetaBeta}{2\NuBetaBeta{}\xspace}
+
+%
+% Times
+%
+\newcommand*{\HalfLifeNoNu}{\ensuremath{T^{0\nu}_{1/2}}\xspace}
+\newcommand*{\HalfLifeDoubleNu}{\ensuremath{T^{2\nu}_{1/2}}\xspace}
+
+%
+% Mass
+%
+\newcommand*\mnubb{\ensuremath{\left\langle m_\nu^{\beta\beta}\right\rangle}\xspace}
+
+%
+% Experiments
+\newcommand*{\NuGEN}{\textnu{}GEN\xspace}
+
+%
+% Solar
+%
+\expandafter\newcommand\csname 8B\endcsname{\nuclide[8]{B}}
+\expandafter\newcommand\csname 8B title\endcsname{\texorpdfstring{\nuclide[8]{B}}{⁸B}}
+\expandafter\newcommand\csname 7Be\endcsname{\nuclide[7]{Be}}
+\expandafter\newcommand\csname 7Be title\endcsname{\texorpdfstring{\nuclide[7]{Be}}{⁷Be}}

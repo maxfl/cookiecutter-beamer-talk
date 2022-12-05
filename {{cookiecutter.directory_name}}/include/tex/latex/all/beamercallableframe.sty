@@ -1,0 +1,50 @@
+\ProvidesPackage{beamercallableframe}
+\RequirePackage{beamerbasemodes}
+\RequirePackage{etoolbox}
+\RequirePackage{xstring}
+
+%
+% Define frame but print only after the command used
+%
+\newcommand{\callableframe}[4][]{%
+  % [#1] - frame options
+  % {#2} - command name
+  % {#3} - command suffix
+  % {#4} - frame body
+  \expandafter\ifundef\csname #2\endcsname{
+    \expandafter\newcommand\expandafter<\expandafter>\csname #2\endcsname[1][]{%
+      \csuse{#2.##1}##2
+    }%
+  }{}
+  \expandafter\newcommand\expandafter<\expandafter>\csname #2.#3\endcsname{%
+    \begin{frame}##1[#1]
+      #4
+    \end{frame}%
+  }%
+  %\global\csletcs{#2}{#2}
+  %\global\csletcs{#2.#3}{#2.#3}
+}
+
+\newcommand{\callableframepre}[5][]{%
+  % [#1] - frame options
+  % {#2} - command name
+  % {#3} - command suffix
+  % {#4} - pre frame code
+  % {#5} - frame body
+  \expandafter\ifundef\csname #2\endcsname{
+    \expandafter\newcommand\expandafter<\expandafter>\csname #2\endcsname[1][]{%
+      \csuse{#2.##1}##2
+    }%
+  }{}
+  \expandafter\newcommand\expandafter<\expandafter>\csname #2.#3\endcsname{%
+    \begingroup
+      #4
+      \begin{frame}##1[#1]
+        #5
+      \end{frame}%
+    \endgroup
+  }%
+  %\global\csletcs{#2}{#2}
+  %\global\csletcs{#2.#3}{#2.#3}
+}
+

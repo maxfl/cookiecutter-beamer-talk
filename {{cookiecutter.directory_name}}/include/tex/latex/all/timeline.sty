@@ -1,0 +1,86 @@
+\ProvidesPackage{timeline}
+\RequirePackage{beamerbaserequires}
+% \RequirePackage{geometry}
+\RequirePackage{ragged2e}
+\RequirePackage{tikz}
+\usetikzlibrary{chains,shapes.arrows,fit}
+
+\definecolor{arrowcolor}{RGB}{201,216,232}% color for the arrow filling
+\definecolor{circlecolor}{RGB}{79,129,189}% color for the inner circles filling
+\colorlet{textcolor}{white}% color for the text inside the circles
+\colorlet{bordercolor}{white}% color for the outer border of circles
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+\newcounter{task}
+
+\newlength\tasksep
+\newlength\taskwidth% width of the box for the task description
+\newlength\taskvsep% vertical distance between the task description and arrow
+
+\setlength\taskwidth{2.5cm}
+\setlength\taskvsep{17pt}
+\setlength\tasksep{0.75\taskwidth}
+
+\def\taskpos{}
+\def\taskanchor{}
+
+\newcommand\task[1]{%
+  {\parbox[t]{\taskwidth}{\Centering#1}}}
+
+\tikzset{
+inner/.style={
+  on chain,
+  circle,
+  inner sep=4pt,
+  fill=circlecolor,
+  line width=1.5pt,
+  draw=bordercolor,
+  % text width=1.6em,
+  align=center,
+  text height=1.25ex,
+  text depth=0ex
+},
+on grid
+}
+
+\newcommand\Task[2][]{%
+\node[inner xsep=0pt] (c1) {\phantom{A}};%
+\stepcounter{task}%
+\ifodd\thetask\relax%
+  \renewcommand\taskpos{\taskvsep}\renewcommand\taskanchor{south}%
+\else%
+  \renewcommand\taskpos{-\taskvsep}\renewcommand\taskanchor{north}%
+\fi%
+\node[inner,font=\small\sffamily\color{textcolor}]%
+  (c\the\numexpr\value{task}+1\relax) {#1};%
+\node[anchor=\taskanchor,yshift=\taskpos]%
+  at (c\the\numexpr\value{task}+1\relax) {\task{#2}};%
+}
+
+\newcommand\drawarrow{% the arrow is placed in the background layer
+                                                     % after the node for the tasks have been placed
+\ifnum\thetask=0\relax%
+  \node[on chain] (c1) {};% if no \Task command is used, the arrow will be drawn
+\fi%
+\node[on chain] (f) {};%
+\begin{pgfonlayer}{background}%
+\node[%
+  inner sep=10pt,%
+  single arrow,%
+  single arrow head extend=0.8cm,%
+  draw=none,%
+  fill=arrowcolor,%
+  fit= (c1) (f)%
+] (arrow) {};%
+\fill[white] % the decoration at the tail of the arrow
+  (arrow.before tail) -- (c1|-arrow.west) -- (arrow.after tail) -- cycle;%
+\end{pgfonlayer}%
+}
+
+\newenvironment{timeline}[1][node distance=\tasksep]
+  {\par\noindent\begin{tikzpicture}[start chain,#1]}
+  {\drawarrow\end{tikzpicture}\par}
+
+\endinput

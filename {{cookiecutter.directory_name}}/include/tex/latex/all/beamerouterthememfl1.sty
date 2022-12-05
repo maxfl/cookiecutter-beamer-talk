@@ -1,0 +1,175 @@
+% Based on split outer them header
+%
+\mode<presentation>
+
+\setbeamercolor{section in head/foot}{parent=palette quaternary}
+\setbeamercolor{subsection in head/foot}{parent=palette primary}
+
+\setbeamercolor{author in head/foot}{parent=section in head/foot}
+\setbeamercolor{title in head/foot}{parent=subsection in head/foot}
+
+\newcount\beamer@xoff
+\newcount\beamer@prev@section
+\newcount\beamer@prev@miniframes
+\beamer@xoff=0
+\beamer@prev@section=0
+\beamer@prev@miniframes=0
+\def\insertsubsectionnavigationhorizontalminiframes#1#2#3{%
+  \hbox to #1{{%
+    \usebeamerfont{subsection in head/foot}\usebeamercolor[fg]{subsection in head/foot}%
+    \beamer@currentsubsection=0%
+    \def\sectionentry##1##2##3##4##5{}%
+    \def\slideentry##1##2##3##4##5##6{%
+      \ifnum##1>\beamer@prev@section%
+        \beamer@xoff=##3\relax%
+        \beamer@prev@miniframes=0\relax%
+      \fi
+      \ifnum##6=\c@part\ifnum##1=\c@section%
+      \ifnum##2>\beamer@currentsubsection%
+      \beamer@xoff=0\relax%
+      \beamer@currentsubsection=##2%
+      \box\beamer@sectionbox\hskip1.875ex plus1fill%
+      \ifnum\beamer@prev@miniframes>0\relax%
+        \beamer@tempdim=\beamer@boxsize%
+        \multiply\beamer@tempdim by \beamer@prev@miniframes%
+        \advance\beamer@tempdim by -\beamer@boxsize%
+        \advance\beamer@tempdim by 2pt%
+        \ifnum##2>1%
+          \advance\beamer@tempdim by 1.875ex%
+        \else
+          \advance\beamer@tempdim by -\beamer@boxsize%
+        \fi
+      \else
+        \beamer@tempdim=0pt%
+      \fi
+      \setbox\beamer@sectionbox=\hbox{\def\insertsubsectionhead{\kern\beamer@tempdim##5}%
+         \def\insertsectionheadnumber{##1}%
+         \def\insertsubsectionheadnumber{##2}%
+         \def\insertpartheadnumber{##6}%
+         \ifnum\c@subsection=##2%
+        \beamer@link(##4){{\usebeamertemplate{subsection in head/foot}}}\else%
+        \beamer@link(##4){{\usebeamertemplate{subsection in head/foot shaded}}}\fi}%
+      \ht\beamer@sectionbox=1.875ex%
+      \dp\beamer@sectionbox=0.75ex%
+      \else%
+      \beamer@prev@miniframes=##3%
+      \fi%
+      \setbox0=\hbox{\insertsectionhead\unskip}\ifdim\wd0>0pt\ifnum##3>0%
+      \beamer@xpos=##3\relax%
+      \advance\beamer@xpos by -\beamer@xoff%
+      \hbox to 0pt{%
+        \beamer@tempdim=0.5pt%
+        \raise\beamer@tempdim\hbox{%
+          \ifnum##2>0%
+            \beamer@tempdim=\beamer@boxsize%
+            \multiply\beamer@tempdim by\beamer@xpos%
+            \advance\beamer@tempdim by -\beamer@boxsize%
+            \advance\beamer@tempdim by 2pt%
+            \advance\beamer@tempdim by \wd\beamer@sectionbox%
+          \else%
+            \beamer@tempdim=\beamer@boxsize%
+            \multiply\beamer@tempdim by\beamer@xpos%
+            \advance\beamer@tempdim by 1.875ex%
+          \fi%
+          \kern\beamer@tempdim\hbox{\beamer@link(##4){%
+              \usebeamerfont{mini frame}%
+              \ifnum\c@section=##1%
+                \ifnum\c@subsection=##2%
+                  \usebeamercolor[fg]{mini frame}%
+                  \ifnum\c@subsectionslide=##3%
+                    \usebeamertemplate{mini frame}%
+                  \else%
+                    \usebeamertemplate{mini frame in current subsection}%
+                  \fi%
+                \else%
+                  \usebeamercolor{mini frame}%
+                  \usebeamertemplate{mini frame in other subsection}%
+                \fi%
+              \else%
+                \usebeamercolor{mini frame}%
+                \usebeamertemplate{mini frame in other subsection}%
+              \fi%
+            }}}\hskip-10cm plus 1fil%
+          }\fi\fi%
+      \else%
+      \fakeslideentry{##1}{##2}{##3}{##4}{##5}{##6}%
+      \fi\fi%
+      \beamer@prev@section=##1%
+      \ignorespaces}%
+    #2\hskip.3cm\setbox\beamer@sectionbox=\hbox{}%
+    \hskip-1.875ex plus-1fill\dohead%
+    \box\beamer@sectionbox\hfil\hskip.3cm%
+    #3}}
+}
+
+\usesectionheadtemplate
+  {\hfill\insertsectionhead}
+  {\hfill\color{fg!50!bg}\insertsectionhead}
+
+\ifbeamer@compress
+
+\defbeamertemplate*{headline}{mfl1 theme}
+{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
+    \insertsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}%
+    \insertsubsectionnavigationhorizontal{.5\paperwidth}{}{\hskip0pt plus1filll}%
+  \end{beamercolorbox}%
+}
+
+%\defbeamertemplate*{headline}{mfl1 theme}
+%{%
+  %\leavevmode%
+  %\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
+    %\insertsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
+  %\end{beamercolorbox}%
+  %\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}%
+    %\insertsubsectionnavigationhorizontalminiframes{.5\paperwidth}{}{\hskip0pt plus1filll}%
+  %\end{beamercolorbox}%
+%}
+\else
+
+\defbeamertemplate*{headline}{mfl1 theme}
+{%
+  \leavevmode%
+  \@tempdimb=2.4375ex%
+  \ifnum\beamer@subsectionmax<\beamer@sectionmax%
+    \multiply\@tempdimb by\beamer@sectionmax%
+  \else%
+    \multiply\@tempdimb by\beamer@subsectionmax%
+  \fi%
+  \ifdim\@tempdimb>0pt%
+    \advance\@tempdimb by 1.825ex%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{section in head/foot}%
+      \vbox to\@tempdimb{\vfil\insertsectionnavigation{.5\paperwidth}\vfil}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{subsection in head/foot}%
+      \vbox to\@tempdimb{\vfil\insertsubsectionnavigation{.5\paperwidth}\vfil}%
+    \end{beamercolorbox}%
+  \fi%
+}
+
+\fi
+
+\defbeamertemplate*{footline}{mfl1 theme}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+
+\mode
+<all>

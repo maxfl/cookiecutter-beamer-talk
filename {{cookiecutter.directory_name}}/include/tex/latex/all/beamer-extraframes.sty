@@ -1,0 +1,24 @@
+\ProvidesPackage{beamer-extraframes}
+\RequirePackage{beamerbaserequires}
+\RequirePackage{tikz}
+\RequirePackage{xparse}
+
+%
+% Frame with text in the middle
+%
+\NewDocumentCommand{\FrameMiddleText}{sO{}O{}O{}m}{%
+  % *1  -> starred version pauses the slide counter
+  % [2] -> frame options (TODO)
+  % [3] -> frame title
+  % [4] -> node options
+  % [5] -> frame text
+  \begingroup
+  \setbeamertemplate{navigation symbols}{}     % disable navigation symbols
+  \begin{frame}[plain,#2]{#3}%
+    \begin{tikzpicture}[overlay,remember picture]%
+      \draw (current page.center) node[anchor=center,font=\huge,align=center,text width=0.8\linewidth,#4] {#5};
+    \end{tikzpicture}%
+  \end{frame}%
+  \endgroup
+  \IfBooleanT{#1}{\addtocounter{framenumber}{-1}}%
+}

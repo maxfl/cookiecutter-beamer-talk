@@ -1,0 +1,8 @@
+\ProvidesPackage{texorpdfstring-commands}
+\RequirePackage{hyperref}
+
+\newcommand\tlsection[3][]{\section[#1]{\texorpdfstring{#2}{#3}}}
+\newcommand\tlsubsection[3][]{\subsection[#1]{\texorpdfstring{#2}{#3}}}
+\newcommand\tlsubsubsection[3][]{\subsubsection[#1]{\texorpdfstring{#2}{#3}}}
+
+\endinput

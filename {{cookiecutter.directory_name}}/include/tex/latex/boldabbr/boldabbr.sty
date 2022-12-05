@@ -1,0 +1,41 @@
+\ProvidesPackage{boldabbr}
+
+% Make each first letter bold
+% pure tex solution https://tex.stackexchange.com/a/94378
+% from https://tex.stackexchange.com/questions/94367/how-to-define-a-command-that-bolds-the-first-letter-of-each-word-in-the-input-ar
+
+%\newcommand*{\BoldAbbrv}[1]{%
+ %\qrr@BoldAbbrv#1 \relax
+%}
+
+%\newcommand*{\eBoldAbbrv}[1]{%
+ %\edef\qrr@BoldAbbrv@Arg{#1 }%
+ %\expandafter\qrr@BoldAbbrv\qrr@BoldAbbrv@Arg\relax%
+%}
+
+%\def\qrr@BoldAbbrv#1 #2\relax{%
+ %\textbf#1\relax%
+ %\ifx\relax#2\else%
+  %\space\qrr@BoldAbbrv#2\relax%
+ %\fi%
+%}
+
+\newcommand*\boldabbr@MakeCmdAbbr[4]{%
+  \newcommand*{#1}[1]{%
+   \qrr@BoldAbbrv##1 \relax
+  }%
+%
+  \newcommand*{#2}[1]{%
+   \edef\qrr@BoldAbbrv@Arg{##1 }%
+   \expandafter\qrr@BoldAbbrv\qrr@BoldAbbrv@Arg\relax%
+  }%
+%
+  \def#3##1 ##2\relax{%
+   #4##1\relax%
+   \ifx\relax##2\else%
+    \space\qrr@BoldAbbrv##2\relax%
+   \fi%
+  }
+}
+
+\boldabbr@MakeCmdAbbr{\BoldAbbrv}{\eBoldAbbrv}{\qrr@BoldAbbrv}{\textbf}
