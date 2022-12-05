@@ -1,4 +1,4 @@
-\documentclass[table,10pt,aspectratio=169,compress,xcolor={table,usenames,dvipsnames,x11names,svgnames},hyperref={unicode,hidelinks}]{beamer}
+\documentclass[table,{{cookiecutter.fontsize}},aspectratio={{cookiecutter.aspect}},compress,xcolor={table,usenames,dvipsnames,x11names,svgnames},hyperref={unicode,hidelinks}]{beamer}
 
 \input{include/presentation_header.tex}
 \input{include/presentation_style.tex}
@@ -13,6 +13,17 @@
 \begin{document}
 \input{slides/logo/logo_set1.tex}
 \newcommand{\TalkVersion}{v0}
+
+\begingroup
+\setbeamertemplate{navigation symbols}{}     % disable navigation symbols
+\begin{frame}[plain]
+  \maketitle
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw (current page.south east) node [above left,yshift=0pt,xshift=0pt,opacity=0.3,font=\relsize{-2}]
+      {\TalkVersion};
+  \end{tikzpicture}
+\end{frame}
+\endgroup
 
 \BeamerTitleLogo[logo-jinr][logo-juno]
 

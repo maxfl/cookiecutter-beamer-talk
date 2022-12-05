@@ -25,41 +25,6 @@
 }
 
 %
-% Enumerate subframes
-%
-\def\subframe@formatter#1{\relsize{-0.5}\ensuremath{_{\arabic{#1}}}}%
-\newcommand\enumerateoverlays{%
-  % patch footline in order to show overlays count
-  \addtobeamertemplate{footline}{%
-    \ifltxcounter{subframe@\theframenumber}{%
-      % step current frame's overlays counters
-      \stepcounter{subframe@\theframenumber}%
-      \stepcounter{subframes@t@\theframenumber}%
-    }{%
-      % define overlays counter for the current frame
-      \newcounter{subframe@\theframenumber}%
-      \stepcounter{subframe@\theframenumber}%
-      % define counter to save total number of overlays
-      \edef\newtfn{\noexpand\newtotcounter{subframes@t@\theframenumber}}%
-      \newtfn%
-      \stepcounter{subframes@t@\theframenumber}%
-    }%
-    \begingroup%
-    % define the formatter
-    %\let\subframe@formatter=\alph%
-    %\def\subframe@formatter#1{.\arabic{#1}}%
-    % if there are more than 1 subframes, patch \insertframenumber routine
-    \ifnumcomp{\totvalue{subframes@t@\theframenumber}}{=}{1}{}{%
-      \appto{\insertframenumber}{\subframe@formatter{subframe@\theframenumber}}%
-    }%
-  }{\endgroup}%
-  % treat broken frames as overlays (freeze frame counter)
-  \addtobeamertemplate{frametitle continuation}{}{%
-    \ifnumcomp{\beamer@autobreakcount}{>}{1}{\addtocounter{framenumber}{-1}}{}%
-  }%
-}
-
-%
 % Input a file with a beamer frame, that can use \myFrameOverlay variable to select overlays
 %
 \newcommand\inputover[2]{
