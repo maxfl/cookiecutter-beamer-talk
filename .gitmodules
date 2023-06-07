@@ -1,0 +1,3 @@
+[submodule "{{cookiecutter.directory_name}}/include/tex/latex/all/lazyrun"]
+	path = {{cookiecutter.directory_name}}/include/tex/latex/all/lazyrun
+	url = https://github.com/maxfl/lazyrun.tex.git
