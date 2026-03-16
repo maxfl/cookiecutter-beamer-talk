@@ -1,0 +1,45 @@
+\ProvidesPackage{beamer-enumerateoverlays}
+\RequirePackage{beamerbaserequires}
+\RequirePackage{relsize}
+\RequirePackage{etoolbox}
+
+\newcommand\enumoverlaysresetsubframecounter{%
+  \ifltxcounter{subframe@\theframenumber}{%
+    \setcounter{subframe@\theframenumber}{-1}%
+  }{}%
+}%
+
+\newcommand\enumoverlaysunstepframenumber{%
+  \enumoverlaysresetsubframecounter%
+  \addtocounter{framenumber}{-1}%
+}%
+
+%
+% Enumerate subframes
+%
+\def\subframe@formatter#1{{\relsize{-1}\ensuremath{.{\arabic{#1}}}}}%
+\newcommand\enumerateoverlays{%
+  \addtobeamertemplate{footline}{%
+    \ifltxcounter{subframe@\theframenumber}{}{%
+      \newcounter{subframe@\theframenumber}%
+      \setcounter{subframe@\theframenumber}{-1}%
+    }
+    \ifnumcomp{\csuse{thesubframe@\theframenumber}}{=}{0}{}{
+      \write\@auxout{%
+        \csgdef{frame@needs@overlay@number@\theframenumber}{}%
+      }%
+      \csdef{frame@needs@overlay@number@\theframenumber}{}%
+    }%
+    \stepcounter{subframe@\theframenumber}%
+    \begingroup%
+    \ifcsdef{frame@needs@overlay@number@\theframenumber}{%
+      \appto{\insertframenumber}{\subframe@formatter{subframe@\theframenumber}}%
+    }{}%
+  }{\endgroup}%
+  % treat broken frames as overlays (freeze frame counter)
+  \addtobeamertemplate{frametitle continuation}{}{%
+    \ifnumcomp{\beamer@autobreakcount}{>}{1}{\addtocounter{framenumber}{-1}}{}%
+  }%
+}
+
+\endinput
