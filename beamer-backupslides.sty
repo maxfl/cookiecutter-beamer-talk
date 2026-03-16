@@ -1,0 +1,38 @@
+\ProvidesPackage{beamer-backupslides}
+\RequirePackage{beamerbaserequires}
+\RequirePackage{xparse}
+
+%
+% An environment for backup slides
+%
+\NewDocumentEnvironment{backupslides}{O{Spare slides:}O{-2mm}O{0mm}m}{%
+  % [#1] -> "Title"
+  % [#2] -> vskip
+  % [#3] -> vskip before TOC
+  % {#4} -> final words
+  \appendix
+  \newcounter{finalframe}
+  \setcounter{finalframe}{\value{framenumber}}
+
+  \section*{Spares}
+  \begin{frame}[label=backup]
+    \begin{center}
+      #4
+    \end{center}
+
+    \vspace{#2}
+    {\large{}#1}
+    \vspace{#3}
+    \tableofcontents
+  \end{frame}
+}{%
+  \setcounter{framenumber}{\value{finalframe}}
+}
+
+\NewDocumentEnvironment{justbackupslides}{}{%
+  \appendix
+  \newcounter{finalframe}
+  \setcounter{finalframe}{\value{framenumber}}
+}{%
+  \setcounter{framenumber}{\value{finalframe}}
+}
